@@ -14,22 +14,30 @@ dotenv.config();
 conectarDB();
 
 //Configuracion de Cors
-const whitelist = [ process.env.FRONTEND_URL ];
+// const whitelist = [ process.env.FRONTEND_URL ];
 
-const corsOptions = {
-    origin: function(origin, callback) {
-        console.log(origin);
-        if (whitelist.includes(origin)) {
-            //Puede hacer consulta a la API
-            callback( null, true );
-        } else {
-            //No tienes los permisos
-            callback( new Error("Error de Cors"));
-        }
-    }
-}
+// const corsOptions = {
+//     origin: function(origin, callback) {
+//         console.log(origin);
+//         if (whitelist.includes(origin)) {
+//             //Puede hacer consulta a la API
+//             callback( null, true );
+//         } else {
+//             //No tienes los permisos
+//             callback( new Error("Error de Cors"));
+//         }
+//     }
+// }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 //Defenición de Routing
 app.use( "/api/usuarios", usuarioRoutes );
